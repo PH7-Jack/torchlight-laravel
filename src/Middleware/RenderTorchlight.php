@@ -47,9 +47,11 @@ class RenderTorchlight
 
         $data = $response->getData();
 
-        $html = BladeManager::renderContent(data_get($data, 'effects.html'));
+        foreach (data_get($data, 'components', []) as $index => $component) {
+            $html = BladeManager::renderContent(data_get($component, 'effects.html'));
 
-        data_set($data, 'effects.html', $html);
+            data_set($data, "components.{$index}.effects.html", $html);
+        }
 
         return $response->setData($data);
     }
